@@ -10,7 +10,7 @@ It is not on npm. Apps install it from this private GitHub repo, at a tag.
 In an app's `web/`:
 
 ```sh
-yarn add "@anmitsu/ui@git+ssh://git@github.com:ryanYtan/anmitsu-ui.git#v0.1.0"
+yarn add "@anmitsu/ui@git+ssh://git@github.com:ryanYtan/anmitsu-ui.git#v0.1.1"
 ```
 
 Yarn clones the tag, installs this repo's dev dependencies and runs `prepack` (`yarn build`), so the app gets the built `dist/`. It needs the same peer dependencies the apps already have: React 19, MUI 9 (`@mui/material`, `@mui/icons-material`, Emotion).
@@ -86,7 +86,7 @@ From `@anmitsu/ui`:
 | `Empty`           | "Nothing here yet" inside a panel.                                                                                                                                                                    |
 | `Loading`         | A centred spinner.                                                                                                                                                                                    |
 | `SignInCard`      | What a signed-out visitor sees: icon, name, a line about the app, error and Sign in button.                                                                                                           |
-| `FormDialog`      | A dialog around a form: Save runs `onSubmit` and closes, or shows the error; Delete asks again; full screen on phones.                                                                                |
+| `FormDialog`      | A dialog around a form: Save runs `onSubmit` and closes, or shows the error; Delete asks again; full screen on phones, fitted to what the keyboard leaves visible (`useVisibleArea`) so its buttons stay in view.                                                                                |
 | `FieldRow`        | Two fields side by side, stacked on phones unless `inline`.                                                                                                                                           |
 | `HeroButton`      | The UI Kit's chamfered call to action; at most one per screen.                                                                                                                                        |
 

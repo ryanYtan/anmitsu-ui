@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Stack, useMediaQuery, useTheme, type Breakpoint } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
+import { useVisibleArea } from './viewport'
 
 export type FormDialogProps = {
   title: React.ReactNode
@@ -29,6 +30,7 @@ const defaultMessage = (error: unknown) => (error instanceof Error ? error.messa
 export function FormDialog({ title, onClose, onSubmit, onDelete, deleteLabel = 'Delete', submitLabel = 'Save', busyLabel = 'Saving…', blocked, deleteExtra, errorMessage = defaultMessage, maxWidth = 'sm', children }: FormDialogProps) {
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
+  const visible = useVisibleArea()
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string>()
   const [confirming, setConfirming] = useState(false)
@@ -46,7 +48,15 @@ export function FormDialog({ title, onClose, onSubmit, onDelete, deleteLabel = '
   }
 
   return (
-    <Dialog open onClose={busy ? undefined : onClose} fullScreen={fullScreen} fullWidth maxWidth={maxWidth}>
+    <Dialog
+      open
+      onClose={busy ? undefined : onClose}
+      fullScreen={fullScreen}
+      fullWidth
+      maxWidth={maxWidth}
+      // On phones it fills only what the keyboard and toolbars leave visible, so Save and Cancel stay in view above them.
+      sx={fullScreen && visible ? { top: `${visible.top}px`, bottom: 'auto', height: `${visible.height}px` } : undefined}
+    >
       <Box
         component='form'
         onSubmit={(e: React.FormEvent) => {
