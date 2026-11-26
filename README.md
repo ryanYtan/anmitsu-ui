@@ -3,7 +3,7 @@
 The shared look of the anmitsu.dev apps: an MUI theme taken from the **Angular UI Kit** design canvas (Ant Design's structure, square 2px corners, pastel fills, Inter at 14px, 32px controls), plus the page pieces every app had its own copy of. Each app
 keeps its own accent colour; everything else is the same everywhere.
 
-It is not on npm. Apps install it from this private GitHub repo, at a tag.
+It is not on npm. Apps install it from this GitHub repo, at a tag.
 
 ## Install
 

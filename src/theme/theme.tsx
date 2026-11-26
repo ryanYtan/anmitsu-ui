@@ -75,10 +75,7 @@ export function createAnmitsuTheme({ mode = 'light', accent = ACCENTS.lavender, 
   const p = scales.primary
   // A segmented control's track and its chosen button. The track is a see-through shade, so it reads as sunk into a
   // panel and the page alike; the chosen button sits above both.
-  const segment =
-    mode === 'light'
-      ? { track: 'rgba(0, 0, 0, 0.05)', thumb: n.surface, shadow: '0 1px 2px rgba(0,0,0,0.08), 0 1px 4px -1px rgba(0,0,0,0.06)' }
-      : { track: 'rgba(0, 0, 0, 0.3)', thumb: n.border, shadow: '0 1px 2px rgba(0,0,0,0.4)' }
+  const segment = mode === 'light' ? { track: 'rgba(0, 0, 0, 0.05)', thumb: n.surface, shadow: '0 1px 2px rgba(0,0,0,0.08), 0 1px 4px -1px rgba(0,0,0,0.06)' } : { track: 'rgba(0, 0, 0, 0.3)', thumb: n.border, shadow: '0 1px 2px rgba(0,0,0,0.4)' }
   const light = mode === 'light'
   const shadows = light
     ? { card: '0 1px 2px rgba(0,0,0,0.06), 0 1px 6px -1px rgba(0,0,0,0.08)', overlay: '0 6px 16px rgba(0,0,0,0.08), 0 3px 6px -4px rgba(0,0,0,0.12), 0 9px 28px 8px rgba(0,0,0,0.05)' }
@@ -202,9 +199,11 @@ export function createAnmitsuTheme({ mode = 'light', accent = ACCENTS.lavender, 
     // A segmented control, as the UI Kit draws one: borderless buttons on a light track, the chosen one raised.
     MuiToggleButtonGroup: {
       styleOverrides: {
-        root: { padding: 2, gap: 2, borderRadius: radius, backgroundColor: segment.track },
-        // Doubled to outweigh MUI's first/middle/last rules, which square off and overlap the buttons' borders.
-        grouped: { '&&': { border: 0, margin: 0, borderRadius: radius } },
+        // Never wider than its container: on a narrow screen the buttons shrink and their labels end in "…".
+        root: { padding: 2, gap: 2, maxWidth: '100%', borderRadius: radius, backgroundColor: segment.track },
+        // Doubled to outweigh MUI's first/middle/last rules, which square off and overlap the buttons' borders. Growing
+        // lets the buttons share out the track when a layout stretches the group, instead of leaving it empty at the end.
+        grouped: { '&&': { border: 0, margin: 0, borderRadius: radius }, flex: '1 1 auto', minWidth: 0 },
       },
     },
     MuiToggleButton: {
@@ -220,6 +219,13 @@ export function createAnmitsuTheme({ mode = 'light', accent = ACCENTS.lavender, 
           color: n.secondary,
           borderRadius: radius,
           backgroundColor: 'transparent',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          // A button with an icon or dot is cut off at its end, not at both sides, when there's no room.
+          justifyContent: 'safe center',
+          // A flex container can't end its text in "…", so a button holding only text is a block, centred by align-content.
+          '&:not(:has(> :not(.MuiTouchRipple-root)))': { display: 'block', alignContent: 'center' },
           '&:hover': { backgroundColor: 'transparent', color: n.text },
           '&.Mui-selected': { color: n.text, fontWeight: 500, backgroundColor: segment.thumb, boxShadow: segment.shadow, '&:hover': { backgroundColor: segment.thumb } },
           '&.Mui-disabled': { border: 0, color: n.disabled },

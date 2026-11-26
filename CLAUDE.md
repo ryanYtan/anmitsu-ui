@@ -5,7 +5,7 @@ by all the repos.
 
 - The look comes from the user's "Angular UI Kit" design canvas (a claude.ai Design artifact, `XBakGa87Zg3FySM4w82GjJ`): Ant Design's structure, square 2px corners, pastel fills, Inter 14/22, 32px controls. Each app passes its own accent; all shades come
   from it (`src/theme/palette.ts`).
-- Private GitHub repo `ryanYtan/anmitsu-ui`, not on npm. Apps depend on a tag (`git+ssh://git@github.com:ryanYtan/anmitsu-ui.git#vX.Y.Z`); Yarn builds `dist/` through `prepack`. A change reaches an app only after a new tag and a bump of that app's `#v…`.
+- Public GitHub repo `ryanYtan/anmitsu-ui`, not on npm. Apps depend on a tag (`git+ssh://git@github.com:ryanYtan/anmitsu-ui.git#vX.Y.Z`); Yarn builds `dist/` through `prepack`. A change reaches an app only after a new tag and a bump of that app's `#v…`.
   Bump `version` in `package.json` with the tag.
 - Yarn 4 via Corepack, `node-modules` linker; Prettier config at the repo root (no semicolons, single quotes, `printWidth: 255`).
 - Commands: `yarn dev` (the demo page in `demo/`, which imports `src/` directly), `yarn test`, `yarn lint`, `yarn typecheck`, `yarn build`. Check a change in the demo, light and dark, at 1280px and 390px wide (`?mode=dark&accent=teal`).
