@@ -13,3 +13,4 @@ by all the repos.
 - MUI 9 has no per-size or per-adornment classes on inputs and no `iconSize*` / `labelSmall` keys; style through the classes in each component's `*Classes.js`. MUI X's date pickers draw their own field (`MuiPickersOutlinedInput`), styled in `src/dates`
   rather than the main theme so the theme doesn't need `@mui/x-date-pickers`.
 - `sideEffects` in `package.json` must list `src/fonts.ts` and `dist/fonts.js`, or the bundler drops the font CSS.
+- MUI 9's `Typography` `color` prop takes only palette names (`textSecondary`, `success`, `error`…); a path such as `'text.secondary'` or `'warning.main'` is silently ignored and the text keeps the main colour. Use the name, or put the path in `sx`.

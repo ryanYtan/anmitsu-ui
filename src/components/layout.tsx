@@ -86,7 +86,7 @@ export function PageHeader({ title, eyebrow, start, action, children }: { title:
   return (
     <Box>
       {eyebrow && (
-        <Typography variant='overline' component='div' color='text.secondary'>
+        <Typography variant='overline' component='div' color='textSecondary'>
           {eyebrow}
         </Typography>
       )}
@@ -98,7 +98,7 @@ export function PageHeader({ title, eyebrow, start, action, children }: { title:
         {action}
       </Stack>
       {children && (
-        <Typography color='text.secondary' sx={{ mt: 0.5, maxWidth: 720 }}>
+        <Typography color='textSecondary' sx={{ mt: 0.5, maxWidth: 720 }}>
           {children}
         </Typography>
       )}
@@ -117,7 +117,7 @@ export function Section({ title, action, description, children }: { title: React
         {action}
       </Stack>
       {description && (
-        <Typography variant='body2' color='text.secondary' sx={{ mb: 1 }}>
+        <Typography variant='body2' color='textSecondary' sx={{ mb: 1 }}>
           {description}
         </Typography>
       )}

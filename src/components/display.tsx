@@ -6,7 +6,7 @@ export function Loading({ label }: { label?: string }) {
     <Stack spacing={1.5} role='status' aria-label={label ?? 'Loading'} sx={{ alignItems: 'center', py: 8 }}>
       <CircularProgress size={28} thickness={4} />
       {label && (
-        <Typography variant='body2' color='text.secondary'>
+        <Typography variant='body2' color='textSecondary'>
           {label}
         </Typography>
       )}
@@ -17,7 +17,7 @@ export function Loading({ label }: { label?: string }) {
 /** "Nothing here yet", centred inside a panel or list. */
 export function Empty({ children }: { children: React.ReactNode }) {
   return (
-    <Typography color='text.secondary' sx={{ py: 3, px: 2, textAlign: 'center' }}>
+    <Typography color='textSecondary' sx={{ py: 3, px: 2, textAlign: 'center' }}>
       {children}
     </Typography>
   )
@@ -28,14 +28,14 @@ export function Stat({ label, children, note }: { label: React.ReactNode; childr
   return (
     // Equal shares of the row whatever the values' widths.
     <Paper sx={{ flex: '1 1 0', minWidth: { xs: 'calc(50% - 6px)', sm: 0 }, p: 2, display: 'flex', flexDirection: 'column', gap: 0.5 }}>
-      <Typography variant='caption' color='text.secondary'>
+      <Typography variant='caption' color='textSecondary'>
         {label}
       </Typography>
       <Typography component='div' sx={{ fontSize: 24, lineHeight: '32px', fontWeight: 600, fontVariantNumeric: 'tabular-nums', overflowWrap: 'anywhere' }}>
         {children}
       </Typography>
       {note && (
-        <Typography variant='caption' color='text.secondary' component='div'>
+        <Typography variant='caption' color='textSecondary' component='div'>
           {note}
         </Typography>
       )}
@@ -86,7 +86,7 @@ export function SignInCard({ icon, name, children, error, onSignIn, buttonProps 
         {name}
       </Typography>
       {children && (
-        <Typography color='text.secondary' sx={{ mb: 3 }}>
+        <Typography color='textSecondary' sx={{ mb: 3 }}>
           {children}
         </Typography>
       )}

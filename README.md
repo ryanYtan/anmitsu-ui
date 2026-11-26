@@ -61,10 +61,10 @@ Every palette colour (`primary`, `secondary`, `success`, `error`, `warning`, `in
 - **Type:** Inter; 14px body with 22px lines; `h1` 38, `h2` 30, `h3` 24, `h4` 20, `h5` 18, `h6` 16 (all 600); `body2` 13; `caption` 12; `overline` is JetBrains Mono in capitals.
 - **Buttons:** `contained` is the pastel fill with ink text (the UI Kit's "Primary"); `outlined` in `primary` is the plain "Default" button; `text` is ink. `color='error'` gives the danger versions. Heights are 24/32/40 for small/medium/large. There are
   no ripples; keyboard focus shows a ring instead.
-- **Fields:** `TextField` defaults to `size='small'` and `fullWidth`, 32px high (40px with `size='medium'`). The label still sits in the border, as MUI draws it. `Autocomplete` is `fullWidth` too.
+- **Fields:** `TextField` defaults to `size='small'` and `fullWidth`, 32px high (40px with `size='medium'`), date pickers too. The label sits above the field, 6px clear, in medium weight (the UI Kit's form layout), never in its border; placeholders always show. `FormLabel` looks the same, for a label over a group of controls. `Autocomplete` is `fullWidth` too.
 - **Checkbox, Radio, Switch, Slider:** the UI Kit's square 16px boxes, the 44×22 square switch and the diamond slider thumb.
 - **Surfaces:** `Paper` and `Card` are outlined (1px `split` border). Dialogs, menus and popovers float on the overlay shadow. `AppBar` defaults to flat with a bottom border.
-- **Chip** is a 22px square tag, tinted in its colour. **Alert** is tinted with a border. **Tooltip** is dark. **Tabs** have the Ant underline, with 32px between tabs.
+- **Chip** is a 22px square tag, tinted in its colour. **Alert** is tinted with a border. **Tooltip** is dark. **Tabs** have the Ant underline, with 32px between tabs. **ToggleButtonGroup** is the UI Kit's segmented control: borderless buttons on a faint track, the chosen one raised in white; 32px in all (28px `small`, 40px `large`).
 - **Table:** a tinted head and 12px×16px cells (8px with `size='small'`). **Pagination**, **Stepper** (square numbered steps), **Breadcrumbs**, **Menu** and **ListItemButton** follow the UI Kit too.
 
 ## Components

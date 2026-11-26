@@ -73,6 +73,12 @@ export function createAnmitsuTheme({ mode = 'light', accent = ACCENTS.lavender, 
     info: colour(STATUS.info),
   }
   const p = scales.primary
+  // A segmented control's track and its chosen button. The track is a see-through shade, so it reads as sunk into a
+  // panel and the page alike; the chosen button sits above both.
+  const segment =
+    mode === 'light'
+      ? { track: 'rgba(0, 0, 0, 0.05)', thumb: n.surface, shadow: '0 1px 2px rgba(0,0,0,0.08), 0 1px 4px -1px rgba(0,0,0,0.06)' }
+      : { track: 'rgba(0, 0, 0, 0.3)', thumb: n.border, shadow: '0 1px 2px rgba(0,0,0,0.4)' }
   const light = mode === 'light'
   const shadows = light
     ? { card: '0 1px 2px rgba(0,0,0,0.06), 0 1px 6px -1px rgba(0,0,0,0.08)', overlay: '0 6px 16px rgba(0,0,0,0.08), 0 3px 6px -4px rgba(0,0,0,0.12), 0 9px 28px 8px rgba(0,0,0,0.05)' }
@@ -193,30 +199,35 @@ export function createAnmitsuTheme({ mode = 'light', accent = ACCENTS.lavender, 
       },
     },
     MuiSvgIcon: { styleOverrides: { fontSizeSmall: { fontSize: rem(16) }, fontSizeMedium: { fontSize: rem(20) }, fontSizeLarge: { fontSize: rem(28) } } },
+    // A segmented control, as the UI Kit draws one: borderless buttons on a light track, the chosen one raised.
     MuiToggleButtonGroup: {
       styleOverrides: {
-        root: { '& .MuiToggleButtonGroup-grouped.Mui-selected': { borderColor: p.base, position: 'relative', zIndex: 1 } },
+        root: { padding: 2, gap: 2, borderRadius: radius, backgroundColor: segment.track },
+        // Doubled to outweigh MUI's first/middle/last rules, which square off and overlap the buttons' borders.
+        grouped: { '&&': { border: 0, margin: 0, borderRadius: radius } },
       },
     },
     MuiToggleButton: {
       styleOverrides: {
         root: {
-          height: 32,
-          padding: '0 15px',
+          height: 28,
+          padding: '0 12px',
+          border: 0,
           textTransform: 'none',
           fontSize: rem(14),
           fontWeight: 400,
           lineHeight: '22px',
-          color: n.text,
-          borderColor: n.border,
+          color: n.secondary,
           borderRadius: radius,
-          backgroundColor: n.surface,
-          '&:hover': { backgroundColor: n.surface, color: p.ink },
-          '&.Mui-selected': { color: p.ink, backgroundColor: n.surface, borderColor: p.base, '&:hover': { backgroundColor: p.tint } },
+          backgroundColor: 'transparent',
+          '&:hover': { backgroundColor: 'transparent', color: n.text },
+          '&.Mui-selected': { color: n.text, fontWeight: 500, backgroundColor: segment.thumb, boxShadow: segment.shadow, '&:hover': { backgroundColor: segment.thumb } },
+          '&.Mui-disabled': { border: 0, color: n.disabled },
           '&.Mui-focusVisible': insetFocusRing,
         },
-        sizeSmall: { height: 24, padding: '0 7px' },
-        sizeLarge: { height: 40, padding: '0 15px', fontSize: rem(16) },
+        // With the track's 2px either side: 28px (small), 32px (medium) and 40px (large) in all, like the other controls.
+        sizeSmall: { height: 24, padding: '0 8px' },
+        sizeLarge: { height: 36, padding: '0 15px', fontSize: rem(16) },
       },
     },
 
@@ -247,7 +258,7 @@ export function createAnmitsuTheme({ mode = 'light', accent = ACCENTS.lavender, 
       styleOverrides: { root: { '&::before': { display: 'none' }, '&:first-of-type, &:last-of-type': { borderRadius: radius } } },
     },
 
-    // Fields: 32px high (40px for size="medium"), labels inside the border as MUI draws them.
+    // Fields: 32px high (40px for size="medium"), with the label above the field (the UI Kit's form layout), not in its border.
     MuiTextField: { defaultProps: { size: 'small', fullWidth: true } },
     MuiFormControl: { defaultProps: { size: 'small' } },
     MuiOutlinedInput: {
@@ -256,6 +267,8 @@ export function createAnmitsuTheme({ mode = 'light', accent = ACCENTS.lavender, 
           borderRadius: radius,
           backgroundColor: n.surface,
           '& .MuiOutlinedInput-notchedOutline': { borderColor: n.border, padding: '0 6px' },
+          // No gap in the border for a label: it sits above the field instead.
+          '& .MuiOutlinedInput-notchedOutline legend': { maxWidth: '0.01px', padding: 0 },
           '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: p.base },
           '&.Mui-focused': { boxShadow: `0 0 0 2px ${p.ring}` },
           '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: p.base, borderWidth: 1 },
@@ -265,6 +278,9 @@ export function createAnmitsuTheme({ mode = 'light', accent = ACCENTS.lavender, 
           '&.Mui-disabled .MuiOutlinedInput-notchedOutline': { borderColor: n.border },
           '&.MuiInputBase-adornedStart': { paddingLeft: 11 },
           '&.MuiInputBase-adornedEnd': { paddingRight: 11 },
+          // The UI Kit's heights, border included: 32px, or 40px for size="medium". The padding below leaves them 2px short.
+          '&:not(.MuiInputBase-multiline)': { minHeight: 40 },
+          '&.MuiInputBase-sizeSmall:not(.MuiInputBase-multiline)': { minHeight: 32 },
           '&.MuiInputBase-multiline': { padding: '8px 11px' },
           '&.MuiInputBase-multiline.MuiInputBase-sizeSmall': { padding: '4px 11px' },
         },
@@ -281,25 +297,29 @@ export function createAnmitsuTheme({ mode = 'light', accent = ACCENTS.lavender, 
       },
     },
     MuiInputBase: { styleOverrides: { root: { fontSize: rem(14), lineHeight: '22px' }, input: { '&::placeholder': { color: n.disabled, opacity: 1 } } } },
+    // Always "shrunk", so placeholders show and the label never sits inside the field; laid out above it, 6px clear.
     MuiInputLabel: {
+      defaultProps: { shrink: true },
       styleOverrides: {
         root: {
-          color: n.secondary,
+          color: n.text,
           fontSize: rem(14),
           lineHeight: '20px',
-          '&.MuiInputLabel-outlined': { transform: 'translate(11px, 10px) scale(1)' },
-          '&.MuiInputLabel-outlined.MuiInputLabel-sizeSmall': { transform: 'translate(11px, 6px) scale(1)' },
-          '&.MuiInputLabel-outlined.MuiInputLabel-shrink': { transform: 'translate(11px, -9px) scale(0.75)', maxWidth: 'calc(133% - 22px)' },
-          '&.Mui-focused': { color: p.ink },
+          fontWeight: 500,
+          '&.MuiInputLabel-formControl': { position: 'relative', transform: 'none', maxWidth: '100%', marginBottom: 6, whiteSpace: 'normal', overflow: 'visible' },
+          '&.Mui-focused': { color: n.text },
           '&.Mui-error': { color: scales.error.ink },
+          '&.Mui-disabled': { color: n.disabled },
         },
+        asterisk: { color: scales.error.ink },
       },
     },
     MuiInputAdornment: { styleOverrides: { root: { color: n.secondary }, positionStart: { marginRight: 8 }, positionEnd: { marginLeft: 8 } } },
     MuiSelect: { styleOverrides: { select: { minHeight: 22, lineHeight: '22px' }, icon: { color: n.secondary } } },
     MuiNativeSelect: { styleOverrides: { icon: { color: n.secondary } } },
     MuiFormHelperText: { styleOverrides: { root: { margin: '4px 0 0', fontSize: rem(12), lineHeight: '18px', color: n.secondary }, contained: { marginLeft: 0, marginRight: 0 } } },
-    MuiFormLabel: { styleOverrides: { root: { color: n.text, fontSize: rem(14), '&.Mui-focused': { color: n.text } } } },
+    // The same as a field's label (MuiInputLabel), for a group of controls such as a ToggleButtonGroup or checkboxes.
+    MuiFormLabel: { styleOverrides: { root: { color: n.text, fontSize: rem(14), lineHeight: '20px', fontWeight: 500, '&.Mui-focused': { color: n.text } } } },
     MuiFormControlLabel: { styleOverrides: { root: { marginLeft: -8, marginRight: 16 }, label: { fontSize: rem(14), lineHeight: '22px' } } },
     MuiAutocomplete: {
       defaultProps: { fullWidth: true },
